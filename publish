@@ -1,0 +1,17 @@
+#!/bin/bash
+
+registry_url="832297766686.dkr.ecr.us-east-2.amazonaws.com"
+image="bitovi/bitovi-metrics-exporter"
+tag="latest"
+
+# login
+$(aws ecr get-login --no-include-email --region us-east-2)
+
+# build
+docker build -t "$image" .
+
+# tag
+docker tag "$image:$tag" "$registry_url/$image:$tag"
+
+#push
+docker push "$registry_url/$image:$tag"
